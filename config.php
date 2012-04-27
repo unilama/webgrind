@@ -18,6 +18,8 @@ class Webgrind_Config extends Webgrind_MasterConfig {
 	*/
 	static $storageDir = '';
 	static $profilerDir = '/tmp';
+    
+    static $useIniProfileDir = true;
 	
 	/**
 	* Suffix for preprocessed files
@@ -81,8 +83,11 @@ class Webgrind_Config extends Webgrind_MasterConfig {
 	* Directory to search for trace files
 	*/
 	static function xdebugOutputDir() {
-		$dir = ini_get('xdebug.profiler_output_dir');
-		if($dir=='') // Ini value not defined
+        $dir = '';
+        
+        if( Webgrind_Config::$useIniProfileDir )
+            $dir = ini_get('xdebug.profiler_output_dir');
+		if($dir == '') // Ini value not defined
 			return realpath(Webgrind_Config::$profilerDir).'/';
 	    return realpath($dir).'/';
 	}
