@@ -42,7 +42,7 @@
 						$("#function_table tbody").append(functionTableRow(data.functions[i], data.linkToFunctionLine));
 					}
 					currentDataFile = data.dataFile;
-					$("#data_file").html(data.dataFile);
+					$("#data_file").html('<a href="index.php?op=download_trace&dataFile='+data.dataFile+'" alt="download">'+data.dataFile+'</a>');
 					$("#invoke_url").html(data.invokeUrl);
 					$(document).attr('title', 'webgrind of '+data.invokeUrl);
 					$("#mtime").html(data.mtime);

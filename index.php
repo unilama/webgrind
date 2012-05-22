@@ -26,6 +26,27 @@ try {
         case 'file_list':
             echo json_encode(Webgrind_FileHandler::getInstance()->getTraceList());
             break;
+        case 'download_trace' :
+            $dataFile = get('dataFile');
+            if($dataFile=='0'){
+                $files = Webgrind_FileHandler::getInstance()->getTraceList();
+                $dataFile = $files[0]['filename'];
+            }
+            $file = Webgrind_Config::xdebugOutputDir().'/'.$dataFile;
+            if ( file_exists($file) ) {
+                header('Content-Description: File Transfer');
+                header('Content-Type: application/octet-stream');
+                header('Content-Disposition: attachment; filename='.basename($file));
+                header('Content-Transfer-Encoding: binary');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($file));
+                ob_clean();
+                flush();
+                readfile($file);
+            }
+            break;
         case 'function_list':
             $dataFile = get('dataFile');
             if($dataFile=='0'){
